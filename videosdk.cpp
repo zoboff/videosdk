@@ -403,18 +403,16 @@ QString VideoSDK::stateToText(const State state)
 */
 void VideoSDK::API_send(const QString &data)
 {
-    m_mutex.lock();
+    QMutexLocker locker(&m_mutex);
     m_queue.append(new QString(data));
     qDebug() << "Queue length:" << m_queue.length() << endl;
-    m_mutex.unlock();
 }
 
 void VideoSDK::clear_queue()
 {
-    m_mutex.lock();
+    QMutexLocker locker(&m_mutex);
     m_queue.clear();
     qDebug() << "Clear queue" << endl;
-    m_mutex.unlock();
 }
 
 int VideoSDK::API_send_direct(const QString &data)
@@ -434,13 +432,10 @@ int VideoSDK::API_send_direct(const QString &data)
 void VideoSDK::queue_processing()
 {
     /* LOCK */
-    m_mutex.lock();
+    QMutexLocker locker(&m_mutex);
 
     if(!started())
     {
-        /* UNLOCK */
-        m_mutex.unlock();
-
         return;
     }
 
@@ -456,9 +451,6 @@ void VideoSDK::queue_processing()
             qDebug() << "Queue length:" << m_queue.length() << endl;
         }
     }
-
-    /* UNLOCK */
-    m_mutex.unlock();
 }
 
 /*
