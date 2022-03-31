@@ -71,7 +71,8 @@ public:
     void sendCommand(QString& peerId, QString& cmd);
     void setPanPos(int pos);
     void setTiltPos(int pos);
-    void setZoomPos(int pos);
+    void setZoomPos(int pos);    
+    State state() const;
 
 protected:
     void send_command(const QString &data);

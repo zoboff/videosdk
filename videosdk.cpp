@@ -378,6 +378,11 @@ void VideoSDK::now_error(QString &error)
     qDebug() << " error: " << error << endl;
 }
 
+State VideoSDK::state() const
+{
+    return m_state;
+}
+
 bool VideoSDK::started() const
 {
     return m_started;
