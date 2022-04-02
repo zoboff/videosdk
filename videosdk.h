@@ -11,8 +11,11 @@
 #include <QMutex>
 #include <QList>
 #include <QTimer>
+#include <QThread>
 
 #define QUEUE_INTERVAL 50
+#define WAIT_INTERVAL 50
+#define WAIT_COUNT 20
 
 #define OBJ_METHOD "method"
 #define OBJ_EVENT "event"
@@ -49,7 +52,7 @@ class VideoSDK : public QObject
     Q_OBJECT
 
 public:
-    explicit VideoSDK(QObject *parent);
+    explicit VideoSDK(QObject *parent = 0);
     ~VideoSDK();
 
 public:
@@ -120,6 +123,34 @@ private slots:
     /* For QTimer::quit signal */
     void queue_processing();
 
+};
+
+class WaitSessionThread : public QThread
+{
+    Q_OBJECT
+private:
+    VideoSDK *m_sdk;
+    QMutex m_mutex;
+
+public:
+    explicit WaitSessionThread(VideoSDK *sdk): QThread(sdk)
+    {
+        m_sdk = sdk;
+    };
+
+protected :
+    void run()
+    {
+        int count = 0;
+        while(count++ < WAIT_COUNT)
+        {
+            QMutexLocker locker(&m_mutex);
+
+            if(m_sdk->started())
+                return;
+            QThread::msleep(WAIT_INTERVAL);
+        }
+    }
 };
 
 #endif // VIDEOSDK_H

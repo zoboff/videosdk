@@ -33,6 +33,11 @@ void VideoSDK::open_session(const QString &host, const QString &pin)
 
     /* Start a send texts processing */
     m_timer.start(QUEUE_INTERVAL);
+
+    /* Wait for ... */
+    WaitSessionThread wait_thread {this};
+    wait_thread.start();
+    wait_thread.wait();
 }
 
 void VideoSDK::close_session()
@@ -198,10 +203,10 @@ void VideoSDK::onSocketDisconnected()
 
     /* Stop queue sending */
     m_timer.stop();
+    /* Close the socket */
+    m_socket->close();
 
     m_started = false;
-    m_socket->deleteLater();
-    m_socket = nullptr;
 }
 
 void VideoSDK::onSocketError(QAbstractSocket::SocketError err)
