@@ -35,9 +35,11 @@ void VideoSDK::open_session(const QString &host, const QString &pin)
     m_timer.start(QUEUE_INTERVAL);
 
     /* Wait for ... */
-    WaitSessionThread wait_thread {this};
-    wait_thread.start();
-    wait_thread.wait();
+    WaitSessionThread* wait_thread = new WaitSessionThread(this);
+    wait_thread->start();
+    wait_thread->wait(WAIT_FOR_SESSION);
+
+    return;
 }
 
 void VideoSDK::close_session()

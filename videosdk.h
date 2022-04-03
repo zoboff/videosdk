@@ -16,6 +16,7 @@
 #define QUEUE_INTERVAL 50
 #define WAIT_INTERVAL 50
 #define WAIT_COUNT 20
+#define WAIT_FOR_SESSION 3000
 
 #define OBJ_METHOD "method"
 #define OBJ_EVENT "event"
@@ -138,16 +139,23 @@ public:
         m_sdk = sdk;
     };
 
+    ~WaitSessionThread()
+    {
+        qDebug() << "WaitSessionThread destroyed" << endl;
+    }
+
 protected :
     void run()
     {
         int count = 0;
         while(count++ < WAIT_COUNT)
         {
-            QMutexLocker locker(&m_mutex);
+            {
+                QMutexLocker locker(&m_mutex);
 
-            if(m_sdk->started())
-                return;
+                if(m_sdk->started())
+                    return;
+            }
             QThread::msleep(WAIT_INTERVAL);
         }
     }
