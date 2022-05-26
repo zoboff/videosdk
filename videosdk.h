@@ -61,7 +61,7 @@ public:
     static QString stateToText(const State state);
 
 public:
-    void open_session(const QString &host, const QString &pin);
+    void open_session(const QString &host, const QString &pin = nullptr);
     void close_session();
     void connectToServer(const QString& server, const int port = 4307);
     void connectToService();
