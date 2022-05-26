@@ -224,7 +224,12 @@ void VideoSDK::onSocketError(QAbstractSocket::SocketError err)
 
 void VideoSDK::auth()
 {
-    QString command = "{\"method\": \"auth\", \"type\": \"secured\", \"credentials\": \"" + m_pin + "\"}";
+    QString command;
+
+    if(m_pin != nullptr && m_pin.length() > 0)
+        command = "{\"method\": \"auth\", \"type\": \"secured\", \"credentials\": \"" + m_pin + "\"}";
+    else
+        command = "{\"method\": \"auth\", \"type\": \"unsecured\"}";
     /* Only here send() */
     API_send_direct(command);
 }
