@@ -44,6 +44,12 @@ enum State
     close = 6       // Finishing the conference
 };
 
+enum WindowState
+{
+    minimized = 1,
+    maximized = 2
+};
+
 typedef struct SocketData {
     QString tokenForHttpServer;
 } SocketData;
@@ -75,7 +81,8 @@ public:
     void sendCommand(QString& peerId, QString& cmd);
     void setPanPos(int pos);
     void setTiltPos(int pos);
-    void setZoomPos(int pos);    
+    void setZoomPos(int pos);
+    void changeWindowState(WindowState windowState, bool stayOnTop);
     State state() const;
 
 protected:
