@@ -188,6 +188,12 @@ void VideoSDK::setZoomPos(int pos)
     API_send(command);
 }
 
+void VideoSDK::changeWindowState(WindowState windowState, bool stayOnTop)
+{
+    QString command = "{\"method\": \"changeWindowState\", \"windowState\":" + QString::number(windowState) + ", \"stayOnTop\":" + QVariant(stayOnTop).toString() + "}";
+    API_send(command);
+}
+
 void VideoSDK::onSocketConnected()
 {
     qDebug() << "WebSocket '" + m_socket->origin() + "' connected" << endl;
