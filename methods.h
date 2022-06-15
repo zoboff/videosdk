@@ -15,14 +15,6 @@ private:
 
 /* All Video SDK API methods */
 public:
-    /*
-    Make p2p call
-
-            Parameters
-            ----------
-            peerId : str
-                A unique user ID (TrueConfID)
-    */
     void call(const QString &peerId);
 };
 

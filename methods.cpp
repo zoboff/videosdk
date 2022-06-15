@@ -6,6 +6,11 @@ CMethods::CMethods(VideoSDK *sdk)
     m_sdk = sdk;
 }
 
+/*!
+* Make p2p call
+*
+* @param[in] peerId A unique user ID (TrueConfID)
+*/
 void CMethods::call(const QString &peerId)
 {
     /* command = {"method": "call", "peerId": peerId} */
