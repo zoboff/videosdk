@@ -12,6 +12,7 @@
 #include <QList>
 #include <QTimer>
 #include <QThread>
+#include "methods.h"
 
 #define QUEUE_INTERVAL 50
 #define WAIT_INTERVAL 50
@@ -69,6 +70,7 @@ public:
 public:
     void open_session(const QString &host, const QString &pin = nullptr);
     void close_session();
+    CMethods* Methods();
     void connectToServer(const QString& server, const int port = 4307);
     void connectToService();
     void login(const QString& callId, const QString& password);
@@ -84,11 +86,11 @@ public:
     void setZoomPos(int pos);
     void changeWindowState(WindowState windowState, bool stayOnTop);
     State state() const;
+    void API_send(const QString &data);
 
 protected:
     void send_command(const QString &data);
     void clear_queue();
-    void API_send(const QString &data);
     void auth();
     bool processIncoming(const QString& data);
     bool processIncomingEvent(const QString &event, const QJsonObject &json_obj);
@@ -121,6 +123,7 @@ private:
     QList<QString*> m_queue;
     QTimer m_timer;
     State m_state = State(0);
+    CMethods* m_methods;
 
 private slots:
     void onSocketConnected();

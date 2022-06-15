@@ -3,6 +3,7 @@
 
 VideoSDK::VideoSDK(QObject *parent): QObject(parent)
 {
+    m_methods = new CMethods(this);
     /* Create & init the QWebSocket */
     QString name = "VideoSDK to API websocket " + QString::number(QRandomGenerator::global()->generate());
     m_socket = new QWebSocket(name, QWebSocketProtocol::VersionLatest, this);
@@ -21,6 +22,7 @@ VideoSDK::~VideoSDK()
 {
     close_session();
     delete m_socket;
+    delete m_methods;
 }
 
 void VideoSDK::open_session(const QString &host, const QString &pin)
@@ -46,6 +48,11 @@ void VideoSDK::close_session()
 {
     m_socket->close();
     clear_queue();
+}
+
+CMethods *VideoSDK::Methods()
+{
+    return m_methods;
 }
 
 /* Connect to TrueConf Server
