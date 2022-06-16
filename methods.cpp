@@ -82,13 +82,21 @@ void CMethods::acceptPeer(const QString &peerId)
 void CMethods::createConference(const QString &title, const QString &confType, bool autoAccept, const QList<QString>& inviteList)
 {
     QString command = "{\"method\": \"createConference\", \"title\": \"" + title
-                    + "\": \"confType\": \"" + confType +"\", \"inviteList\": [";
+                    + "\": \"confType\": \"" + confType +"\"";
 
-    for(auto invite : inviteList)
+    if(!inviteList.isEmpty())
     {
-        command += "\"" + invite + "\"";
-        invite != inviteList.back() ? command += ", " : command += "]}";
+        command += ", \"inviteList\": [";
+        for(auto invite : inviteList)
+        {
+            command += "\"" + invite + "\"";
+            if(invite != inviteList.back())
+            {
+                command += ", ";
+            }
+        }
     }
+    command += "]}";
 
     m_sdk->API_send(command);
 }
@@ -255,13 +263,21 @@ void CMethods::enableVideoReceiving(const QString &peerId, bool enable)
 
 void CMethods::expandCallToMulti(const QString& title, const QList<QString>& inviteList)
 {
-    QString command = "{\"method\": \"expandCallToMulti\", \"title\": \"" + title + "\", \"inviteList\": [";
+    QString command = "{\"method\": \"expandCallToMulti\", \"title\": \"" + title + "\"";
 
-    for(auto invite : inviteList)
+    if(!inviteList.isEmpty())
     {
-        command += "\"" + invite + "\"";
-        invite != inviteList.back() ? command += ", " : command += "]}";
+        command += ", \"inviteList\": [";
+        for(auto invite : inviteList)
+        {
+            command += "\"" + invite + "\"";
+            if(invite != inviteList.back())
+            {
+                command += ", ";
+            }
+        }
     }
+    command += "]}";
 
     m_sdk->API_send(command);
 }
