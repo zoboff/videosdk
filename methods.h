@@ -41,16 +41,20 @@ public:
     *Execution result will be received separately via notification.
     *
     *@param[in] forAll
-    *True - conference ends for all the participants;
+    *:True - conference ends for all the participants;
     *False - you leave the conference, but other participants remain in the conference.
     *
     */
     void hangUp(bool forAll);
 
-    ///Login to TrueConf server
+    /*!
+    *Login to TrueConf server
+    */
     void login(const QString &callId, const QString &password);
 
-    ///Log out the current user
+    /*!
+    *Log out the current user
+    */
     void logout();
 
     /*!
@@ -65,7 +69,9 @@ public:
 
     void showMainWindow(bool maximized, bool stayOnTop);
 
-    ///The command allows to reject incoming call or invitation to the conference
+    /*!
+    *The command allows to reject incoming call or invitation to the conference
+    */
     void reject();
 
     /*!
@@ -96,7 +102,9 @@ public:
     */
     void createConference(const QString &title, const QString &confType, bool autoAccept, const QList<QString>& inviteList);
 
-    ///Requesting the list of hardware.
+    /*!
+    *Requesting the list of hardware.
+    */
     void getHardware();
 
     /*!
@@ -106,7 +114,9 @@ public:
     */
     void acceptFile(int id);
 
-    ///Accept an incoming request to the podium
+    /*!
+    *Accept an incoming request to the podium
+    */
     void acceptInvitationToPodium();
 
     /*!
@@ -167,7 +177,9 @@ public:
     */
     void changeCurrentMonitor(int monitorIndex);
 
-    ///Change the current matrix (layout) type.
+    /*!
+    *Change the current matrix (layout) type.
+    */
     void changeVideoMatrixType(int matrixType);
 
     /*!
@@ -185,26 +197,39 @@ public:
     */
     void chatClear(const QString &id);
 
-    ///Clear call history
+    /*!
+    *Clear call history
+    */
     void clearCallHistory();
 
-    ///Clear file sharing history and delete files
+    /*!
+    *Clear file sharing history and delete files
+    */
     void clearFileTransfer();
 
-    ///Clear all tokens
+    /*!
+    *Clear all tokens
+    */
     void clearTokens();
 
-    ///Connect to trueconf.com service
+    /*!
+    *Connect to trueconf.com service
+    */
     void connectToService();
 
-    ///Create a users group in address book
+    /*!
+    *Create a users group in address book
+    */
     void createGroup(const QString &name);
 
     /*!
     *Create an NDI source from a conference participant
     *
     *@param[in] deviceId User ID (TrueConf ID)
-    *@example @code sdk.createNDIDevice("user1@some.server") @endcode
+    *
+    *Example
+    *@code sdk.createNDIDevice("user1@some.server") @endcode
+
     */
     void createNDIDevice(const QString &deviceId);
 
@@ -226,7 +251,8 @@ public:
     *Delete NDI source
     *
     *@param[in] deviceId User ID (TrueConf ID)
-    *@example
+    *
+    *Example
     *@code sdk.deleteNDIDevice("user1@some.server") @endcode
     */
     void deleteNDIDevice(const QString &deviceId);
@@ -251,7 +277,8 @@ public:
     *
     *@param[in] peerId User ID (TrueConf ID)
     *@param[in] enable
-    *@example
+    *
+    *Example
     *@code
     // Switching video off from user "user1@some.server"
        sdk.enableVideoReceiving("user1@some.server", False)
@@ -264,7 +291,9 @@ public:
     *
     *@param title Conference title
     *@param inviteList Invited list
-    *@example @code sdk.expandCallToMulti(title="New group conference", inviteList=["user1@some.server", "user2@some.server", "user3@some.server"]) @endcode
+    *
+    *Example
+    *@code sdk.expandCallToMulti(title="New group conference", inviteList=["user1@some.server", "user2@some.server", "user3@some.server"]) @endcode
     */
     void expandCallToMulti(const QString& title, const QList<QString>& inviteList);
 
@@ -272,20 +301,31 @@ public:
     *Fire a custom event
     *
     *@param[in] data Any data string
-    *@example @code sdk.fireMyEvent("power off") @endcode
+    *
+    *Example
+    *@code sdk.fireMyEvent("power off") @endcode
     */
     void fireMyEvent(const QString &data);
 
-    ///Request the address book
+
+    /*!
+    *Request the address book
+    */
     void getAbook();
 
-    ///Request names of all data containers
+    /*!
+    *Request names of all data containers
+    */
     void getAllUserContainersNames();
 
-    ///Request information about the current sound playback device
+    /*!
+    *Request information about the current sound playback device
+    */
     void getAppSndDev();
 
-    ///Request the application state
+    /*!
+    *Request the application state
+    */
     void getAppState();
 };
 
