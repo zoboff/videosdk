@@ -82,7 +82,7 @@ void CMethods::acceptPeer(const QString &peerId)
 void CMethods::createConference(const QString &title, const QString &confType, bool autoAccept, const QList<QString>& inviteList)
 {
     QString command = "{\"method\": \"createConference\", \"title\": \"" + title
-                    + "\": \"confType\": \"" + confType +"\"";
+                    + "\", \"confType\": \"" + confType +"\", \"autoAccept\": " + QString(autoAccept ? "true" : "false") + "";
 
     if(!inviteList.isEmpty())
     {
@@ -95,8 +95,9 @@ void CMethods::createConference(const QString &title, const QString &confType, b
                 command += ", ";
             }
         }
+        command += "]";
     }
-    command += "]}";
+    command += "}";
 
     m_sdk->API_send(command);
 }
@@ -276,8 +277,9 @@ void CMethods::expandCallToMulti(const QString& title, const QList<QString>& inv
                 command += ", ";
             }
         }
+        command += "]";
     }
-    command += "]}";
+    command += "}";
 
     m_sdk->API_send(command);
 }
@@ -311,3 +313,334 @@ void CMethods::getAppState()
     QString command = "{\"method\": \"getAppState\"}";
     m_sdk->API_send(command);
 }
+
+void CMethods::activateLicense(const QString &key)
+{
+    QString command = "{\"method\": \"activateLicense\", \"key\": \"" + key +"\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::auth(const QString &role, const QString &type, const QString &credentials)
+{
+    QString command = "{\"method\": \"auth\"";
+    if(!type.isEmpty())
+    {
+        command += ", \"type\": \"" + type + "\"";
+    }
+    if(!credentials.isEmpty())
+    {
+        command += ", \"credentials\": \"" + credentials + "\"";
+    }
+    command += ", \"role\": \"" + role + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getAudioDelayDetectorInfo()
+{
+    QString command = "{\"method\": \"getAudioDelayDetectorInfo\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getAudioMute()
+{
+    QString command = "{\"method\": \"getAudioMute\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getAudioReceivingLevel(const QString &peerId)
+{
+    QString command = "{\"method\": \"getAudioReceivingLevel\", \"peerId\": \"" + peerId +"\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getAuthInfo()
+{
+    QString command = "{\"method\": \"getAuthInfo\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getAvailableServersList()
+{
+    QString command = "{\"method\": \"getAvailableServersList\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getBackground()
+{
+    QString command = "{\"method\": \"getBackground\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getBanList()
+{
+    QString command = "{\"method\": \"getBanList\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getBroadcastPicture()
+{
+    QString command = "{\"method\": \"getBroadcastPicture\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getBroadcastSelfie()
+{
+    QString command = "{\"method\": \"getBroadcastSelfie\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getCallHistory(int count)
+{
+    QString command = "{\"method\": \"getCallHistory\", \"count\": " + QString::number(count) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getChatLastMessages(const QString &id, int beginNumber, int count)
+{
+    QString command = "{\"method\": \"getChatLastMessages\", \"id\": \"" + id + "\", \"beginNumber\": " + QString::number(beginNumber)
+                    + ", \"count\": " + QString::number(count) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getConferenceParticipants()
+{
+    QString command = "{\"method\": \"getConferenceParticipants\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getConferences()
+{
+    QString command = "{\"method\": \"getConferences\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getConnected()
+{
+    QString command = "{\"method\": \"getConnected\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getContactDetails(const QString& peerId)
+{
+    QString command = "{\"method\": \"getContactDetails\", \"peerId\": \"" + peerId + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getCreatedNDIDevices()
+{
+    QString command = "{\"method\": \"getCreatedNDIDevices\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getCrop()
+{
+    QString command = "{\"method\": \"getCrop\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getCurrentUserProfileUrl()
+{
+    QString command = "{\"method\": \"getCurrentUserProfileUrl\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getDisplayNameById(const QString& peerId)
+{
+    QString command = "{\"method\": \"getDisplayNameById\", \"peerId\": \"" + peerId + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getFileInfo(int id)
+{
+    QString command = "{\"method\": \"getFileInfo\", \"id\": " + QString::number(id) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getFileList()
+{
+    QString command = "{\"method\": \"getFileList\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getFileRequests()
+{
+    QString command = "{\"method\": \"getFileRequests\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getFileTransferAvailability()
+{
+    QString command = "{\"method\": \"getFileTransferAvailability\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getFileTransferInfo()
+{
+    QString command = "{\"method\": \"getFileTransferInfo\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getFileUploads()
+{
+    QString command = "{\"method\": \"getFileUploads\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getGroups()
+{
+    QString command = "{\"method\": \"getGroups\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getHardwareKey()
+{
+    QString command = "{\"method\": \"getHardwareKey\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getHttpServerSettings()
+{
+    QString command = "{\"method\": \"getHttpServerSettings\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getHttpServerState()
+{
+    QString command = "{\"method\": \"getHttpServerState\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getIncomingCameraControlRequests()
+{
+    QString command = "{\"method\": \"getIncomingCameraControlRequests\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getInfoWidgetsState()
+{
+    QString command = "{\"method\": \"getInfoWidgetsState\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getLastCallsViewTime()
+{
+    QString command = "{\"method\": \"getLastCallsViewTime\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getLastSelectedConference()
+{
+    QString command = "{\"method\": \"getLastSelectedConference\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getLastUsedServersList(int count)
+{
+    QString command = "{\"method\": \"getLastUsedServersList\", \"count\": " + QString::number(count) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getLicenseServerStatus()
+{
+    QString command = "{\"method\": \"getLicenseServerStatus\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getLicenseType()
+{
+    QString command = "{\"method\": \"getLicenseType\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getListOfChats()
+{
+    QString command = "{\"method\": \"getListOfChats\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getLogin()
+{
+    QString command = "{\"method\": \"getLogin\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getLogo()
+{
+    QString command = "{\"method\": \"getLogo\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getMaxConfTitleLength()
+{
+    QString command = "{\"method\": \"getMaxConfTitleLength\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getMicMute()
+{
+    QString command = "{\"method\": \"getMicMute\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getModes()
+{
+    QString command = "{\"method\": \"getModes\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getMonitorsInfo()
+{
+    QString command = "{\"method\": \"getMonitorsInfo\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getNDIState()
+{
+    QString command = "{\"method\": \"getNDIState\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::getOutgoingBitrate()
+{
+    QString command = "{\"method\": \"getOutgoingBitrate\"}";
+    m_sdk->API_send(command);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
