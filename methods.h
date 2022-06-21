@@ -421,6 +421,182 @@ public:
     void getNDIState();
 
     void getOutgoingBitrate();
+
+    void getOutgoingCameraControlRequests();
+
+    void getOutputSelfVideoRotateAngle();
+
+    void getProperties();
+
+    void getPtzControls();
+
+    void getRemotelyControlledCameras();
+
+    void getRenderInfo();
+
+    void getScheduler();
+
+    void getServerDomain();
+
+    void getSettings();
+
+    void getSlideShowCache();
+
+    void getSlideShowInfo();
+
+    void getSystemInfo();
+
+    void getTariffRestrictions();
+
+    void getTokenForHttpServer();
+
+    void getTrueConfRoomProKey();
+
+    void getVideoMatrix();
+
+    void getVideoMute();
+
+    void getWebManagerUrl();
+
+    void gotoPodium();
+
+    void hideVideoSlot(const QString& callId);
+
+    void inviteToConference(const QString& peerId);
+
+    void inviteToPodium(const QString& peerId);
+
+    void kickFromPodium(const QString& peerId);
+
+    void kickPeer(const QString& peerId);
+
+    void leavePodium();
+
+    void loadData(const QString& containerName);
+
+    void moveVideoSlotToMonitor(const QString& callId, int monitorIndex);
+
+    void productRegistrationOffline(int fileId);
+
+    void ptzDown();
+
+    void ptzLeft();
+
+    void ptzRight();
+
+    void ptzStop();
+
+    void ptzUp();
+
+    void ptzZoomDec();
+
+    void ptzZoomInc();
+
+    void rebootSystem();
+
+    void rejectFile(int id);
+
+    void rejectInvitationToPodium();
+
+    void rejectRequestCameraControl(const QString& callId);
+
+    void rejectRequestToPodium(const QString& peerId);
+
+    void remotelyControlledCameraPtzDown(const QString& cameraOwnerCallId);
+
+    void remotelyControlledCameraPtzLeft(const QString& cameraOwnerCallId);
+
+    void remotelyControlledCameraPtzRight(const QString& cameraOwnerCallId);
+
+    void remotelyControlledCameraPtzUp(const QString& cameraOwnerCallId);
+
+    void remotelyControlledCameraPtzZoomDec(const QString& cameraOwnerCallId);
+
+    void remotelyControlledCameraPtzZoomInc(const QString& cameraOwnerCallId);
+
+    void removeAllSlides(bool removeFromServer);
+
+    void removeFromAbook(const QString& peerId);
+
+    void removeFromGroup(int groupId, const QString& peerId);
+
+    void removeFromServersList(const QString& serverName);
+
+    void removeGroup(int groupId);
+
+    void removeImageFromCachingQueue(int groupId);
+
+    void removeSlide(int idx, bool removeFromServer);
+
+    void removeVideoSlotFromMonitor(int monitorIndex);
+
+    void renameGroup(int groupId, const QString& newName);
+
+    void renameInAbook(const QString& peerId, const QString& peerDn);
+
+    void requestParticipantCameraControl(const QString& callId);
+
+    void restoreWindow();
+
+    void saveData(const QString& containerName, const QString& data, const QString& flags);
+
+    void sendConferenceFile(int fileId);
+
+    void sendFile(int fileId, const QString& peerId);
+
+    void sendGroupMessage(const QString& message);
+
+    void sendMessage(const QString& peerId, const QString& message);
+
+    void setAppSndDev(const QString& name, const QString& description);
+
+    void setAudioCapturer(const QString& name, const QString& description);
+
+    void setAudioMute(bool mute);
+
+    void setAudioReceivingLevel(const QString& peerId, int level);
+
+    void setAudioRenderer(const QString& name, const QString& description);
+
+    void setAuthParams(const QString& userType, const QString& authType, const QString& authValue);
+
+    void setBackground(int fileId);
+
+    void setBroadcastSelfie(bool enabled, int fps);
+
+    void setCrop(bool enable);
+
+    void setDefaultBackground();
+
+    void setDefaultLogo();
+
+    void setHttpServerSettings(const QMap<QString, int>& settings);
+
+    void setLastCallsViewed();
+
+    void setLogo(int fileId, int mode);
+
+    void setMicMute(bool mute);
+
+    void setModeratorRole(const QString& peerId, bool moderator);
+
+    void setModes(const QString& pin, const QString& mode);
+
+    void setNDIState(bool enabled);
+
+    void setOutputSelfVideoRotateAngle(int rotateAngle);
+
+    void setPanPos(int pos);
+
+    void setPtzDefaults();
+
+    void setSettings(const QString& settings);
+
+    void setSlidePosition(int fromIdx, int toIdx);
+
+    void setTiltPos(int pos);
+
+    void setUsedApiVersion(const QString& version);
 };
 
 
