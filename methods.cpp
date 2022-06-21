@@ -606,29 +606,565 @@ void CMethods::getOutgoingBitrate()
     m_sdk->API_send(command);
 }
 
+void CMethods::getOutgoingCameraControlRequests()
+{
+    QString command = "{\"method\": \"getOutgoingCameraControlRequests\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::getOutputSelfVideoRotateAngle()
+{
+    QString command = "{\"method\": \"getOutputSelfVideoRotateAngle\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::getProperties()
+{
+    QString command = "{\"method\": \"getProperties\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::getPtzControls()
+{
+    QString command = "{\"method\": \"getPtzControls\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::getRemotelyControlledCameras()
+{
+    QString command = "{\"method\": \"getRemotelyControlledCameras\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::getRenderInfo()
+{
+    QString command = "{\"method\": \"getRenderInfo\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::getScheduler()
+{
+    QString command = "{\"method\": \"getScheduler\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::getServerDomain()
+{
+    QString command = "{\"method\": \"getServerDomain\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::getSettings()
+{
+    QString command = "{\"method\": \"getSettings\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::getSlideShowCache()
+{
+    QString command = "{\"method\": \"getSlideShowCache\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::getSlideShowInfo()
+{
+    QString command = "{\"method\": \"getSlideShowInfo\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::getSystemInfo()
+{
+    QString command = "{\"method\": \"getSystemInfo\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::getTariffRestrictions()
+{
+    QString command = "{\"method\": \"getTariffRestrictions\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::getTokenForHttpServer()
+{
+    QString command = "{\"method\": \"getTokenForHttpServer\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::getTrueConfRoomProKey()
+{
+    QString command = "{\"method\": \"getTrueConfRoomProKey\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::getVideoMatrix()
+{
+    QString command = "{\"method\": \"getVideoMatrix\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::getVideoMute()
+{
+    QString command = "{\"method\": \"getVideoMute\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::getWebManagerUrl()
+{
+    QString command = "{\"method\": \"getWebManagerUrl\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::gotoPodium()
+{
+    QString command = "{\"method\": \"gotoPodium\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::hideVideoSlot(const QString &callId)
+{
+    QString command = "{\"method\": \"hideVideoSlot\", \"callId\": \"" + callId + "\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::inviteToConference(const QString& peerId)
+{
+    QString command = "{\"method\": \"inviteToConference\", \"peerId\": \"" + peerId + "\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::inviteToPodium(const QString &peerId)
+{
+    QString command = "{\"method\": \"inviteToPodium\", \"peerId\": \"" + peerId + "\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::kickFromPodium(const QString &peerId)
+{
+    QString command = "{\"method\": \"kickFromPodium\", \"peerId\": \"" + peerId + "\"}";
+    m_sdk->API_send(command);
+}
 
+void CMethods::kickPeer(const QString &peerId)
+{
+    QString command = "{\"method\": \"kickPeer\", \"peerId\": \"" + peerId + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::leavePodium()
+{
+    QString command = "{\"method\": \"leavePodium\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::loadData(const QString &containerName)
+{
+    QString command = "{\"method\": \"loadData\", \"containerName\": \"" + containerName + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::moveVideoSlotToMonitor(const QString &callId, int monitorIndex)
+{
+    QString command = "{\"method\": \"moveVideoSlotToMonitor\", \"callId\": \"" + callId + "\", \"monitorIndex\": "
+                    + QString::number(monitorIndex) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::productRegistrationOffline(int fileId)
+{
+    QString command = "{\"method\": \"productRegistrationOffline\", \"fileId\": " + QString::number(fileId) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::ptzDown()
+{
+    QString command = "{\"method\": \"ptzDown\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::ptzLeft()
+{
+    QString command = "{\"method\": \"ptzLeft\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::ptzRight()
+{
+    QString command = "{\"method\": \"ptzRight\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::ptzStop()
+{
+    QString command = "{\"method\": \"ptzStop\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::ptzUp()
+{
+    QString command = "{\"method\": \"ptzUp\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::ptzZoomDec()
+{
+    QString command = "{\"method\": \"ptzZoomDec\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::ptzZoomInc()
+{
+    QString command = "{\"method\": \"ptzZoomInc\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::rebootSystem()
+{
+    QString command = "{\"method\": \"rebootSystem\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::rejectFile(int id)
+{
+    QString command = "{\"method\": \"rejectFile\", \"id\": " + QString::number(id) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::rejectInvitationToPodium()
+{
+    QString command = "{\"method\": \"rejectInvitationToPodium\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::rejectRequestCameraControl(const QString &callId)
+{
+    QString command = "{\"method\": \"rejectRequestCameraControl\", \"callId\": \"" + callId + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::rejectRequestToPodium(const QString &peerId)
+{
+    QString command = "{\"method\": \"rejectRequestToPodium\", \"peerId\": \"" + peerId + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::remotelyControlledCameraPtzDown(const QString &cameraOwnerCallId)
+{
+    QString command = "{\"method\": \"remotelyControlledCameraPtzDown\", \"cameraOwnerCallId\": \"" + cameraOwnerCallId + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::remotelyControlledCameraPtzLeft(const QString &cameraOwnerCallId)
+{
+    QString command = "{\"method\": \"remotelyControlledCameraPtzLeft\", \"cameraOwnerCallId\": \"" + cameraOwnerCallId + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::remotelyControlledCameraPtzRight(const QString &cameraOwnerCallId)
+{
+    QString command = "{\"method\": \"remotelyControlledCameraPtzRight\", \"cameraOwnerCallId\": \"" + cameraOwnerCallId + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::remotelyControlledCameraPtzUp(const QString &cameraOwnerCallId)
+{
+    QString command = "{\"method\": \"remotelyControlledCameraPtzUp\", \"cameraOwnerCallId\": \"" + cameraOwnerCallId + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::remotelyControlledCameraPtzZoomDec(const QString &cameraOwnerCallId)
+{
+    QString command = "{\"method\": \"remotelyControlledCameraPtzZoomDec\", \"cameraOwnerCallId\": \"" + cameraOwnerCallId + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::remotelyControlledCameraPtzZoomInc(const QString &cameraOwnerCallId)
+{
+    QString command = "{\"method\": \"remotelyControlledCameraPtzZoomInc\", \"cameraOwnerCallId\": \"" + cameraOwnerCallId + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::removeAllSlides(bool removeFromServer)
+{
+    QString command = "{\"method\": \"removeAllSlides\", \"removeFromServer\": " + QString(removeFromServer ? "true" : "false") + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::removeFromAbook(const QString &peerId)
+{
+    QString command = "{\"method\": \"removeFromAbook\", \"peerId\": \"" + peerId + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::removeFromGroup(int groupId, const QString& peerId)
+{
+    QString command = "{\"method\": \"removeFromGroup\", \"groupId\": " + QString::number(groupId)
+                    + ", \"peerId\", \"" + peerId + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::removeFromServersList(const QString &serverName)
+{
+    QString command = "{\"method\": \"removeFromServersList\", \"serverName\": \"" + serverName + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::removeGroup(int groupId)
+{
+    QString command = "{\"method\": \"removeGroup\", \"groupId\": " + QString::number(groupId) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::removeImageFromCachingQueue(int groupId)
+{
+    QString command = "{\"method\": \"removeImageFromCachingQueue\", \"groupId\": " + QString::number(groupId) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::removeSlide(int idx, bool removeFromServer)
+{
+    QString command = "{\"method\": \"removeSlide\", \"idx\": " + QString::number(idx) + ", \"removeFromServer\": "
+                    + QString(removeFromServer ? "true" : "false") + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::removeVideoSlotFromMonitor(int monitorIndex)
+{
+    QString command = "{\"method\": \"removeVideoSlotFromMonitor\", \"monitorIndex\": " + QString::number(monitorIndex) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::renameGroup(int groupId, const QString &newName)
+{
+    QString command = "{\"method\": \"renameGroup\", \"monitorIndex\": " + QString::number(groupId) + ", \"newName\": \"" +  newName + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::renameInAbook(const QString &peerId, const QString &peerDn)
+{
+    QString command = "{\"method\": \"renameInAbook\", \"peerId\": \"" + peerId + "\", \"peerDn\": \"" +  peerDn + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::requestParticipantCameraControl(const QString &callId)
+{
+    QString command = "{\"method\": \"requestParticipantCameraControl\", \"callId\": \"" + callId + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::restoreWindow()
+{
+    QString command = "{\"method\": \"restoreWindow\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::saveData(const QString &containerName, const QString &data, const QString &flags)
+{
+    QString command = "{\"method\": \"saveData\", \"containerName\": \"" + containerName
+                    + "\", \"data\": \"" + data + "\", \"flags\": \"" + flags + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::sendConferenceFile(int fileId)
+{
+    QString command = "{\"method\": \"sendConferenceFile\", \"fileId\": " + QString::number(fileId) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::sendFile(int fileId, const QString &peerId)
+{
+    QString command = "{\"method\": \"sendFile\", \"fileId\": " + QString::number(fileId)
+                    + ", \"peerId\", \"" + peerId + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::sendGroupMessage(const QString &message)
+{
+    QString command = "{\"method\": \"sendGroupMessage\", \"message\": \"" + message + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::sendMessage(const QString &peerId, const QString &message)
+{
+    QString command = "{\"method\": sendMessage\", \"peerId\": \"" + peerId + "\", \"message\": \"" +  message + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setAppSndDev(const QString &name, const QString &description)
+{
+    QString command = "{\"method\": setAppSndDev\", \"name\": \"" + name + "\", \"description\": \"" +  description + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setAudioCapturer(const QString &name, const QString &description)
+{
+    QString command = "{\"method\": setAudioCapturer\", \"name\": \"" + name + "\", \"description\": \"" +  description + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setAudioMute(bool mute)
+{
+    QString command = "{\"method\": \"setAudioMute\", \"moot\": " + QString(mute ? "true" : "false") + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setAudioReceivingLevel(const QString &peerId, int level)
+{
+    QString command = "{\"method\": \"setAudioReceivingLevel\", \"peerId\": \"" + peerId + "\", \"level\": " +  QString::number(level) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setAudioRenderer(const QString &name, const QString &description)
+{
+    QString command = "{\"method\": \"setAudioRenderer\", \"name\": \"" + name + "\", \"description\": \"" +  description + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setAuthParams(const QString &userType, const QString &authType, const QString &authValue)
+{
+    QString command = "{\"method\": \"setAuthParams\", \"userType\": \"" + userType + "\", \"authType\": \"" + authType + "\"";
+    if(authType == "password")
+    {
+        command += ", \"password\": \"" + authValue + "\"";
+    }
+    if(authType == "pin")
+    {
+        command += ", \"newPin\": \"" + authValue + "\"";
+    }
+    command += "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setBackground(int fileId)
+{
+    QString command = "{\"method\": \"setBackground\", \"fileId\": " + QString::number(fileId) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setBroadcastSelfie(bool enabled, int fps)
+{
+    QString command = "{\"method\": \"setBroadcastSelfie\", \"enabled\": " + QString(enabled ? "true" : "false")
+                    + ", \"fps\": " + QString::number(fps) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setCrop(bool enable)
+{
+    QString command = "{\"method\": \"setCrop\", \"enable\": " + QString(enable ? "true" : "false") + "}";
+}
+
+void CMethods::setDefaultBackground()
+{
+    QString command = "{\"method\": \"setDefaultBackground\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setDefaultLogo()
+{
+    QString command = "{\"method\": \"setDefaultLogo\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setHttpServerSettings(const QMap<QString, int> &settings)
+{
+    QString command = "{\"method\": \"setHttpServerSettings\"";
+
+    command += ", settings: {";
+
+    if(!settings.isEmpty())
+    {
+        for(auto key : settings.keys())
+        {
+            if(key != settings.keys().front())
+            {
+                command += ", ";
+            }
+            command += "\"" + key + "\": " + QString::number(settings.value(key));
+        }
+    }
+    command += "}}";;
+
+    m_sdk->API_send(command);
+}
+
+void CMethods::setLastCallsViewed()
+{
+    QString command = "{\"method\": \"setLastCallsViewed\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setLogo(int fileId, int mode)
+{
+    QString command = "{\"method\": \"setLogo\", \"fileId\": " + QString::number(fileId) + ", \"mode\": "
+                    + QString::number(mode) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setMicMute(bool mute)
+{
+    QString command = "{\"method\": \"setMicMute\", \"mute\": " + QString(mute ? "true" : "false") + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setModeratorRole(const QString &peerId, bool moderator)
+{
+    QString command = "{\"method\": \"setModeratorRole\", \"peerId\": \"" + peerId + "\", \"moderator\": " + QString(moderator ? "true" : "false") + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setModes(const QString &pin, const QString &mode)
+{
+    QString command = "{\"method\": \"setModes\", \"pin\": \"" + pin + "\", \"mode\": \"" + mode + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setNDIState(bool enabled)
+{
+    QString command = "{\"method\": \"setNDIState\", \"enabled\": " + QString(enabled ? "true" : "false") + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setOutputSelfVideoRotateAngle(int rotateAngle)
+{
+    QString command = "{\"method\": \"setOutputSelfVideoRotateAngle\", \"rotateAngle\": " + QString::number(rotateAngle) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setPanPos(int pos)
+{
+    QString command = "{\"method\": \"setPanPos\", \"pos\": " + QString::number(pos) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setPtzDefaults()
+{
+    QString command = "{\"method\": \"setPtzDefaults\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setSettings(const QString &settings)
+{
+    QString command = "{\"method\": \"setSettings\", \"settings\": {" + settings + "}}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setSlidePosition(int fromIdx, int toIdx)
+{
+    QString command = "{\"method\": \"setSlidePosition\", \"fromIdx\": " + QString::number(fromIdx) + ", \"toIdx\": "
+                    + QString::number(toIdx) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setTiltPos(int pos)
+{
+    QString command = "{\"method\": \"setTiltPos\", \"pos\": " + QString::number(pos) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setUsedApiVersion(const QString &version)
+{
+    QString command = "{\"method\": \"setUsedApiVersion\", \"settings\": \"" + version + "\"}";
+    m_sdk->API_send(command);
+}
 
 
 
