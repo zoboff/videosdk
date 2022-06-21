@@ -327,6 +327,100 @@ public:
     *Request the application state
     */
     void getAppState();
+
+    void activateLicense(const QString& key);
+
+    void auth(const QString& role, const QString& type = "", const QString& credentials = "");
+
+    void getAudioDelayDetectorInfo();
+
+    void getAudioMute();
+
+    void getAudioReceivingLevel(const QString& peerId);
+
+    void getAuthInfo();
+
+    void getAvailableServersList();
+
+    void getBackground();
+
+    void getBanList();
+
+    void getBroadcastPicture();
+
+    void getBroadcastSelfie();
+
+    void getCallHistory(int count);
+
+    void getChatLastMessages(const QString& id, int beginNumber, int count);
+
+    void getConferenceParticipants();
+
+    void getConferences();
+
+    void getConnected();
+
+    void getContactDetails(const QString& peerId);
+
+    void getCreatedNDIDevices();
+
+    void getCrop();
+
+    void getCurrentUserProfileUrl();
+
+    void getDisplayNameById(const QString& peerId);
+
+    void getFileInfo(int id);
+
+    void getFileList();
+
+    void getFileRequests();
+
+    void getFileTransferAvailability();
+
+    void getFileTransferInfo();
+
+    void getFileUploads();
+
+    void getGroups();
+
+    void getHardwareKey();
+
+    void getHttpServerSettings();
+
+    void getHttpServerState();
+
+    void getIncomingCameraControlRequests();
+
+    void getInfoWidgetsState();
+
+    void getLastCallsViewTime();
+
+    void getLastSelectedConference();
+
+    void getLastUsedServersList(int count);
+
+    void getLicenseServerStatus();
+
+    void getLicenseType();
+
+    void getListOfChats();
+
+    void getLogin();
+
+    void getLogo();
+
+    void getMaxConfTitleLength();
+
+    void getMicMute();
+
+    void getModes();
+
+    void getMonitorsInfo();
+
+    void getNDIState();
+
+    void getOutgoingBitrate();
 };
 
 
