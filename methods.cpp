@@ -935,7 +935,7 @@ void CMethods::removeVideoSlotFromMonitor(int monitorIndex)
 
 void CMethods::renameGroup(int groupId, const QString &newName)
 {
-    QString command = "{\"method\": \"renameGroup\", \"monitorIndex\": " + QString::number(groupId) + ", \"newName\": \"" +  newName + "\"}";
+    QString command = "{\"method\": \"renameGroup\", \"groupId\": " + QString::number(groupId) + ", \"newName\": \"" +  newName + "\"}";
     m_sdk->API_send(command);
 }
 
@@ -1003,7 +1003,7 @@ void CMethods::setAudioCapturer(const QString &name, const QString &description)
 
 void CMethods::setAudioMute(bool mute)
 {
-    QString command = "{\"method\": \"setAudioMute\", \"moot\": " + QString(mute ? "true" : "false") + "}";
+    QString command = "{\"method\": \"setAudioMute\", \"mute\": " + QString(mute ? "true" : "false") + "}";
     m_sdk->API_send(command);
 }
 
@@ -1162,9 +1162,223 @@ void CMethods::setTiltPos(int pos)
 
 void CMethods::setUsedApiVersion(const QString &version)
 {
-    QString command = "{\"method\": \"setUsedApiVersion\", \"settings\": \"" + version + "\"}";
+    QString command = "{\"method\": \"setUsedApiVersion\", \"version\": \"" + version + "\"}";
     m_sdk->API_send(command);
 }
+
+void CMethods::setVideoCapturer(const QString &name, const QString &description)
+{
+    QString command = "{\"method\": \"setVideoCapturer\", \"name\": \"" + name + "\", \"description\": \""
+            + description + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setVideoMute(bool mute)
+{
+    QString command = "{\"method\": \"setVideoMute\", \"mute\": " + QString(mute ? "true" : "false") + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::setZoomPos(int pos)
+{
+    QString command = "{\"method\": \"setZoomPos\", \"pos\": " + QString::number(pos) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::showFirstSlide()
+{
+    QString command = "{\"method\": \"showFirstSlide\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::showLastSlide()
+{
+    QString command = "{\"method\": \"showLastSlide\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::showNextSlide()
+{
+    QString command = "{\"method\": \"showNextSlide\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::showPrevSlide()
+{
+    QString command = "{\"method\": \"showPrevSlide\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::showSlide(int idx)
+{
+    QString command = "{\"method\": \"showSlide\", \"idx\": " + QString::number(idx) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::showVideoSlot(const QString &callId)
+{
+    QString command = "{\"method\": \"showVideoSlot\", \"callId\": \"" + callId + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::shutdown(bool forAll)
+{
+    QString command = "{\"method\": \"shutdown\", \"forAll\": " + QString(forAll ? "true" : "false") + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::shutdownSystem()
+{
+    QString command = "{\"method\": \"shutdownSystem\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::sortSlides()
+{
+    QString command = "{\"method\": \"sortSlides\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::startAudioDelayDetectorTest()
+{
+    QString command = "{\"method\": \"startAudioDelayDetectorTest\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::startBroadcastPicture(int fileId)
+{
+    QString command = "{\"method\": \"startBroadcastPicture\", \"fileId\": " + QString::number(fileId) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::startCapture(int captureId)
+{
+    QString command = "{\"method\": \"startCapture\", \"captureId\": " + QString::number(captureId) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::startHttpServer()
+{
+    QString command = "{\"method\": \"startHttpServer\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::startRemark()
+{
+    QString command = "{\"method\": \"startRemark\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::startSlideShow(const QString &title, int startingIdx)
+{
+    QString command = "{\"method\": \"startSlideShow\", \"title\": \"" + title + "\", \"startingIdx\": " + QString::number(startingIdx) + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::stopAudioDelayDetectorTest()
+{
+    QString command = "{\"method\": \"stopAudioDelayDetectorTest\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::stopBroadcastPicture()
+{
+    QString command = "{\"method\": \"stopBroadcastPicture\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::stopCachingAllImages()
+{
+    QString command = "{\"method\": \"stopCachingAllImages\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::stopCapture()
+{
+    QString command = "{\"method\": \"stopCapture\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::stopHttpServer()
+{
+    QString command = "{\"method\": \"stopHttpServer\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::stopSlideShow()
+{
+    QString command = "{\"method\": \"stopSlideShow\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::swapVideoSlots(const QString &callId1, const QString &callId2)
+{
+    QString command = "{\"method\": \"swapVideoSlots\", \"callId1\": \"" + callId1 + "\", \"callId2\": \"" + callId2 + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::switchVideoFlow(const QString &callId, bool mainCamera)
+{
+    QString command = "{\"method\": \"switchVideoFlow\", \"callId\": \"" + callId + "\", \"mainCamera\": " + QString(mainCamera ? "true" : "false") + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::testAudioCapturerStart()
+{
+    QString command = "{\"method\": \"testAudioCapturerStart\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::testAudioCapturerStop()
+{
+    QString command = "{\"method\": \"testAudioCapturerStop\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::testAudioRenderer()
+{
+    QString command = "{\"method\": \"testAudioRenderer\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::toneDial(const QString &symbol, const QString &callId)
+{
+    QString command = "{\"method\": \"toneDial\", \"symbol\": \"" + symbol + "\", \"callId\": \"" + callId + "\"}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::turnRemoteCamera(const QString &peerId, bool on)
+{
+    QString command = "{\"method\": \"turnRemoteCamera\", \"peerId\": \"" + peerId + "\", \"on\": " + QString(on ? "true" : "false") + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::turnRemoteMic(const QString &peerId, bool on)
+{
+    QString command = "{\"method\": \"turnRemoteMic\", \"peerId\": \"" + peerId + "\", \"on\": " + QString(on ? "true" : "false") + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::turnRemoteSpeaker(const QString &peerId, bool on)
+{
+    QString command = "{\"method\": \"turnRemoteSpeaker\", \"peerId\": \"" + peerId + "\", \"on\": " + QString(on ? "true" : "false") + "}";
+    m_sdk->API_send(command);
+}
+
+void CMethods::unblock(const QString &peerId)
+{
+    QString command = "{\"method\": \"unblock\", \"peerId\": \"" + peerId + "\"}";
+    m_sdk->API_send(command);
+}
+
+
+
+
+
+
+
+
+
 
 
 
