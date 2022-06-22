@@ -597,6 +597,76 @@ public:
     void setTiltPos(int pos);
 
     void setUsedApiVersion(const QString& version);
+
+    void setVideoCapturer(const QString& name, const QString& description);
+
+    void setVideoMute(bool mute);
+
+    void setZoomPos(int pos);
+
+    void showFirstSlide();
+
+    void showLastSlide();
+
+    void showNextSlide();
+
+    void showPrevSlide();
+
+    void showSlide(int idx);
+
+    void showVideoSlot(const QString& callId);
+
+    void shutdown(bool forAll);
+
+    void shutdownSystem();
+
+    void sortSlides();
+
+    void startAudioDelayDetectorTest();
+
+    void startBroadcastPicture(int fileId);
+
+    void startCapture(int captureId);
+
+    void startHttpServer();
+
+    void startRemark();
+
+    void startSlideShow(const QString& title, int startingIdx);
+
+    void stopAudioDelayDetectorTest();
+
+    void stopBroadcastPicture();
+
+    void stopCachingAllImages();
+
+    void stopCapture();
+
+    void stopHttpServer();
+
+    void stopSlideShow();
+
+    void swapVideoSlots(const QString& callId1, const QString& callId2);
+
+    void switchVideoFlow();
+
+    void switchVideoFlow(const QString& callId, bool mainCamera);
+
+    void testAudioCapturerStart();
+
+    void testAudioCapturerStop();
+
+    void testAudioRenderer();
+
+    void toneDial(const QString& symbol, const QString& callId);
+
+    void turnRemoteCamera(const QString& peerId, bool on);
+
+    void turnRemoteMic(const QString& peerId, bool on);
+
+    void turnRemoteSpeaker(const QString& peerId, bool on);
+
+    void unblock(const QString& peerId);
 };
 
 
