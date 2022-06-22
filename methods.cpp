@@ -935,7 +935,7 @@ void CMethods::removeVideoSlotFromMonitor(int monitorIndex)
 
 void CMethods::renameGroup(int groupId, const QString &newName)
 {
-    QString command = "{\"method\": \"renameGroup\", \"monitorIndex\": " + QString::number(groupId) + ", \"newName\": \"" +  newName + "\"}";
+    QString command = "{\"method\": \"renameGroup\", \"groupId\": " + QString::number(groupId) + ", \"newName\": \"" +  newName + "\"}";
     m_sdk->API_send(command);
 }
 
@@ -1003,7 +1003,7 @@ void CMethods::setAudioCapturer(const QString &name, const QString &description)
 
 void CMethods::setAudioMute(bool mute)
 {
-    QString command = "{\"method\": \"setAudioMute\", \"moot\": " + QString(mute ? "true" : "false") + "}";
+    QString command = "{\"method\": \"setAudioMute\", \"mute\": " + QString(mute ? "true" : "false") + "}";
     m_sdk->API_send(command);
 }
 
@@ -1162,14 +1162,15 @@ void CMethods::setTiltPos(int pos)
 
 void CMethods::setUsedApiVersion(const QString &version)
 {
-    QString command = "{\"method\": \"setUsedApiVersion\", \"settings\": \"" + version + "\"}";
+    QString command = "{\"method\": \"setUsedApiVersion\", \"version\": \"" + version + "\"}";
     m_sdk->API_send(command);
 }
 
 void CMethods::setVideoCapturer(const QString &name, const QString &description)
 {
-    QString command = "{\"method\": \"setVideoCapturer\", \"fromIdx\": \"" + name + "\", \"toIdx\": \""
+    QString command = "{\"method\": \"setVideoCapturer\", \"name\": \"" + name + "\", \"description\": \""
             + description + "\"}";
+    m_sdk->API_send(command);
 }
 
 void CMethods::setVideoMute(bool mute)
