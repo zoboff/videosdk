@@ -4,6 +4,7 @@
 VideoSDK::VideoSDK(QObject *parent): QObject(parent)
 {
     m_methods = new CMethods(this);
+    m_events = new CEvents(this);
     /* Create & init the QWebSocket */
     QString name = "VideoSDK to API websocket " + QString::number(QRandomGenerator::global()->generate());
     m_socket = new QWebSocket(name, QWebSocketProtocol::VersionLatest, this);
@@ -22,6 +23,7 @@ VideoSDK::~VideoSDK()
 {
     close_session();
     delete m_socket;
+    delete m_events;
     delete m_methods;
 }
 
@@ -486,7 +488,7 @@ void VideoSDK::queue_processing()
 /*
  * Signal textMessageReceived() from QWebSocket* m_socket
 */
-void VideoSDK::onSocketReceived(const QString data)
+void VideoSDK::onSocketReceived(const QString &data)
 {
     // Emit
     emit socketReceived(data);
