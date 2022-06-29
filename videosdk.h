@@ -13,6 +13,7 @@
 #include <QTimer>
 #include <QThread>
 #include "methods.h"
+#include "events.h"
 
 #define QUEUE_INTERVAL 50
 #define WAIT_INTERVAL 50
@@ -124,12 +125,13 @@ private:
     QTimer m_timer;
     State m_state = State(0);
     CMethods* m_methods;
+    CEvents* m_events;
 
 private slots:
     void onSocketConnected();
     void onSocketDisconnected();
     void onSocketError(QAbstractSocket::SocketError err);
-    void onSocketReceived(const QString data);
+    void onSocketReceived(const QString &data);
     void onSocketDestroyed(QObject *obj = nullptr);
     /* For QTimer::quit signal */
     void queue_processing();

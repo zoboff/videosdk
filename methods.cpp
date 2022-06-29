@@ -1,5 +1,6 @@
 #include "methods.h"
 #include "videosdk.h"
+
 CMethods::CMethods(VideoSDK *sdk)
 {
     m_sdk = sdk;
