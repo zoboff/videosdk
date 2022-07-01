@@ -60,6 +60,8 @@ class VideoSDK : public QObject
 {
     Q_OBJECT
 
+    friend CMethods;
+    friend CEvents;
 public:
     explicit VideoSDK(QObject *parent = 0);
     ~VideoSDK();
@@ -72,6 +74,7 @@ public:
     void open_session(const QString &host, const QString &pin = nullptr);
     void close_session();
     CMethods* Methods();
+    CEvents* Events();
     void connectToServer(const QString& server, const int port = 4307);
     void connectToService();
     void login(const QString& callId, const QString& password);
@@ -92,9 +95,10 @@ public:
 protected:
     void send_command(const QString &data);
     void clear_queue();
+    void on_error(QString &e);
     void auth();
     bool processIncoming(const QString& data);
-    bool processIncomingEvent(const QString &event, const QJsonObject &json_obj);
+    void processIncomingEvent(const QString &event, const QJsonObject &json_obj);
     /* Requests */
     void requestAppState();
     void requestSettings();
@@ -105,7 +109,6 @@ protected:
 private:
     int API_send_direct(const QString &data);
     void now_ready();
-    void now_error(QString &error);
 
 signals:
     void opened();
@@ -113,6 +116,7 @@ signals:
     void error(QString text);
     void change_state(State state);
     void socketReceived(QString data);
+    void socketReceivedEvent(const QString &name, const QJsonObject &json_obj);
 
 private:
     QMutex m_mutex;
