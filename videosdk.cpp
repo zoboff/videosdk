@@ -57,6 +57,11 @@ CMethods *VideoSDK::Methods()
     return m_methods;
 }
 
+CEvents *VideoSDK::Events()
+{
+    return m_events;
+}
+
 /* Connect to TrueConf Server
 
 Parameters
@@ -287,7 +292,9 @@ bool VideoSDK::processIncoming(const QString &data)
         else if(json_obj.contains(OBJ_METHOD) && json_obj.contains(OBJ_EVENT)
                 && json_obj[OBJ_METHOD].toString() == OBJ_EVENT)
         {
-            processed = processIncomingEvent(json_obj[OBJ_EVENT].toString(), json_obj);
+            processIncomingEvent(json_obj[OBJ_EVENT].toString(), json_obj);
+
+            processed = true; // <--- processed
         }
         /* === ERROR ============================================= */
         /* { "error": ... } */
@@ -295,34 +302,30 @@ bool VideoSDK::processIncoming(const QString &data)
         {
             QString err = QString(json_obj[OBJ_ERROR].toString());
 
-            /* Emit signal */
-            emit error(QString(err));
-
             processed = true; // <--- processed
 
             /* Now */
-            now_error(err);
+            on_error(err);
         }
     }
     /* === ERROR ============================================= */
     else if(err.error != QJsonParseError::NoError)
     {
-        QString err = "processIncoming(): JSON parse 0error";
+        QString sErr = "processIncoming(): " + err.errorString();
 
         /* Emit signal */
-        emit error(QString(err));
+        emit error(QString(sErr));
 
         /* Now */
-        now_error(err);
+        on_error(sErr);
     }
 
     return processed;
     // auto j = {"appState": None, "method": "getAppState", "result": None};
 }
 
-bool VideoSDK::processIncomingEvent(const QString &event, const QJsonObject &json_obj)
+void VideoSDK::processIncomingEvent(const QString &event, const QJsonObject &json_obj)
 {
-    bool processed = false;
 
     /* {"event": "appStateChanged", "appState": None} */
     if(event == V_APP_STATE_CHANGED && json_obj.contains(OBJ_APP_STATE))
@@ -331,15 +334,13 @@ bool VideoSDK::processIncomingEvent(const QString &event, const QJsonObject &jso
 
         /* Emit signal */
         emit change_state(State(m_state));
-
-        processed = true; // <--- processed
     }
     else
     {
 
     }
 
-    return processed;
+    emit socketReceivedEvent(event, json_obj);
 }
 
 /*
@@ -399,10 +400,13 @@ void VideoSDK::now_ready()
 /*
  * When error
 */
-void VideoSDK::now_error(QString &error)
+void VideoSDK::on_error(QString &e)
 {
+    /* Emit signal */
+    emit error(QString(e));
+
     qDebug() << ":now_error" << endl;
-    qDebug() << " error: " << error << endl;
+    qDebug() << " error: " << e << endl;
 }
 
 State VideoSDK::state() const
