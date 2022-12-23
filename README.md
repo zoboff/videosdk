@@ -24,4 +24,4 @@ C++(Qt) library for the TrueConf VideoSDK API & TrueConf Room API
 
 ## Demo projects using VideoSDK
 
-* [C++ (QT) example](https://github.com/TrueConf/DemoQtVideoSDK)
+* [C++ (QT) code example](https://github.com/TrueConf/DemoQtVideoSDK)
