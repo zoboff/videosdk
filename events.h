@@ -67,14 +67,18 @@ signals:
     void extraVideoFlowNotify(const QJsonObject &response);
     void fileAccepted(const QJsonObject &response);
     void fileConferenceSent(const QJsonObject &response);
+    void fileDeletedFromFileTransferHistory(const QJsonObject &response);
     void fileDownloadingProgress(const QJsonObject &response);
+    void fileRequestStatusChanged(const QJsonObject &response);
     void fileRejected(const QJsonObject &response);
     void fileSent(const QJsonObject &response);
     void fileStatus(const QJsonObject &response);
+    void fileTransferAvailabilityChanged(const QJsonObject &response);
     void fileTransferAvailable(const QJsonObject &response);
     void fileTransferCleared(const QJsonObject &response);
     void fileTransferFileDeleted(const QJsonObject &response);
     void fileTransferPinChanged(const QJsonObject &response);
+    void fileTransferHistoryCleared(const QJsonObject &response);
     void fileUploadingProgress(const QJsonObject &response);
     void groupChatMessageSent(const QJsonObject &response);
     void groupsAdded(const QJsonObject &response);
@@ -88,6 +92,9 @@ signals:
     void imageAddedToCachingQueue(const QJsonObject &response);
     void imageRemovedFromCachingQueue(const QJsonObject &response);
     void incomingChatMessage(const QJsonObject &response);
+    void incomingFileRequestAccepted(const QJsonObject &response);
+    void incomingFileRequestDownloadingProgress(const QJsonObject &response);
+    void incomingFileRequestRejected(const QJsonObject &response);
     void incomingGroupChatMessage(const QJsonObject &response);
     void incomingPodiumInvitationRemoved(const QJsonObject &response);
     void incomingRequestCameraControlAccepted(const QJsonObject &response);
@@ -114,6 +121,9 @@ signals:
     void NDIStateChanged(const QJsonObject &response);
     void newParticipantInConference(const QJsonObject &response);
     void outgoingBitrateChanged(const QJsonObject &response);
+    void outgoingFileRequestSent(const QJsonObject &response);
+    void outgoingFileRequestSentToConference(const QJsonObject &response);
+    void outgoingFileRequestUploadingProgress(const QJsonObject &response);
     void outgoingRequestCameraControlAccepted(const QJsonObject &response);
     void outgoingRequestCameraControlRejected(const QJsonObject &response);
     void outputSelfVideoRotateAngleChanged(const QJsonObject &response);
