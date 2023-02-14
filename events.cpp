@@ -203,9 +203,17 @@ void CEvents::socketReceivedEvent(const QString &name, const QJsonObject &json_o
     {
         emit fileConferenceSent(json_obj);
     }
+    else if (compare("fileDeletedFromFileTransferHistory", name))
+    {
+        emit fileDeletedFromFileTransferHistory(json_obj);
+    }
     else if(compare("fileDownloadingProgress", name))
     {
         emit fileDownloadingProgress(json_obj);
+    }
+    else if(compare("fileRequestStatusChanged", name))
+    {
+        emit fileRequestStatusChanged(json_obj);
     }
     else if(compare("fileRejected", name))
     {
@@ -218,6 +226,10 @@ void CEvents::socketReceivedEvent(const QString &name, const QJsonObject &json_o
     else if(compare("fileStatus", name))
     {
         emit fileStatus(json_obj);
+    }
+    else if(compare("fileTransferAvailabilityChanged", name))
+    {
+        emit fileTransferAvailabilityChanged(json_obj);
     }
     else if(compare("fileTransferAvailable", name))
     {
@@ -234,6 +246,10 @@ void CEvents::socketReceivedEvent(const QString &name, const QJsonObject &json_o
     else if(compare("fileTransferPinChanged", name))
     {
         emit fileTransferPinChanged(json_obj);
+    }
+    else if(compare("fileTransferHistoryCleared", name))
+    {
+        emit fileTransferHistoryCleared(json_obj);
     }
     else if(compare("fileUploadingProgress", name))
     {
@@ -286,6 +302,18 @@ void CEvents::socketReceivedEvent(const QString &name, const QJsonObject &json_o
     else if(compare("incomingChatMessage", name))
     {
         emit incomingChatMessage(json_obj);
+    }
+    else if(compare("incomingFileRequestAccepted", name))
+    {
+        emit incomingFileRequestAccepted(json_obj);
+    }
+    else if(compare("incomingFileRequestDownloadingProgress", name))
+    {
+        emit incomingFileRequestDownloadingProgress(json_obj);
+    }
+    else if(compare("incomingFileRequestRejected", name))
+    {
+        emit incomingFileRequestRejected(json_obj);
     }
     else if(compare("incomingGroupChatMessage", name))
     {
@@ -390,6 +418,18 @@ void CEvents::socketReceivedEvent(const QString &name, const QJsonObject &json_o
     else if(compare("outgoingBitrateChanged", name))
     {
         emit outgoingBitrateChanged(json_obj);
+    }
+    else if(compare("outgoingFileRequestSent", name))
+    {
+        emit outgoingFileRequestSent(json_obj);
+    }
+    else if(compare("outgoingFileRequestSentToConference", name))
+    {
+        emit outgoingFileRequestSentToConference(json_obj);
+    }
+    else if(compare("outgoingFileRequestUploadingProgress", name))
+    {
+        emit outgoingFileRequestUploadingProgress(json_obj);
     }
     else if(compare("outgoingRequestCameraControlAccepted", name))
     {
