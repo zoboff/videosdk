@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QWebSocket>
+#include <QNetworkAccessManager>
 #include <QDebug>
 #include <QUrl>
 #include <QJsonDocument>
@@ -24,6 +25,7 @@
 #define OBJ_EVENT "event"
 #define OBJ_TYPE  "type"
 #define OBJ_REQUEST_ID "requestId"
+#define OBJ_RESULT_CODE "resultCode"
 #define OBJ_ERROR "error"
 #define OBJ_RESULT "result"
 #define OBJ_CREDENTIALS "credentials"
@@ -34,6 +36,14 @@
 #define V_SECURED "secured"
 #define V_GET_APP_STATE "getAppState"
 #define V_APP_STATE_CHANGED "appStateChanged"
+
+#define DEFAULT_ROOM_PORT 2525
+#define DEFAULT_VIDEOSDK_PORT 8080
+
+#define DEFAULT_WEBSOCKET_PORT_FOR_ROOM 8765
+#define DEFAULT_HTTP_PORT_FOR_ROOM 8766
+#define DEFAULT_WEBSOCKET_PORT_FOR_VIDEOSDK 8767
+#define DEFAULT_HTTP_PORT_FOR_VIDEOSDK = 8768
 
 enum State
 {
@@ -71,7 +81,7 @@ public:
     static QString stateToText(const State state);
 
 public:
-    void open_session(const QString &host, const QString &pin = nullptr);
+    void open_session(const QString &host, const int port = 80, const QString &pin = nullptr);
     void close_session();
     CMethods* Methods();
     CEvents* Events();
@@ -91,11 +101,13 @@ public:
     void changeWindowState(WindowState windowState, bool stayOnTop);
     State state() const;
     void API_send(const QString &data);
+    void setPrintUnprocessedDataEnabled(bool enabled);
 
 protected:
     void send_command(const QString &data);
     void clear_queue();
-    void on_error(QString &e);
+    void on_error(const QString &e);
+    void on_warning(const QString &w); //todo: rename all such methods and correct codestyle
     void auth();
     bool processIncoming(const QString& data);
     void processIncomingEvent(const QString &event, const QJsonObject &json_obj);
@@ -108,13 +120,22 @@ protected:
 
 private:
     int API_send_direct(const QString &data);
+    void openWebsocketSession(const QString &host, const int port);
+    bool parseConfigJsonFileData(const QByteArray &cfgJsonData, QString *errTxt = nullptr);
     void now_ready();
+
+    //'emitDeprecated' == true lets old code using 'change_state(State)' signal work as it was before this commit
+    //todo: remove 'emitDeprecated' upon removing deprecated signal 'change_state(State)' from all code
+    void setCurrentState(int state, bool emitDeprecated = false);
 
 signals:
     void opened();
     void closed();
     void error(QString text);
+    void warning(QString text);
+    [[deprecated("Use stateChanged(State) instead.")]]
     void change_state(State state);
+    void stateChanged(State state);
     void socketReceived(QString data);
     void socketReceivedEvent(const QString &name, const QJsonObject &json_obj);
 
@@ -123,13 +144,19 @@ private:
     bool m_started = false;
     QString m_host;
     QString m_pin;
+    int m_port{0};
+    int m_configHttpPort{0};
+    int m_configWebsocketPort{0};
     QWebSocket* m_socket = nullptr;
-    SocketData m_SocketData;
+    SocketData m_socketData;
     QList<QString*> m_queue;
     QTimer m_timer;
     State m_state = State(0);
     CMethods* m_methods;
     CEvents* m_events;
+    QNetworkAccessManager m_networkAccessMgr;
+    QByteArray m_downloadedData;
+    bool m_printUnprocessedDataEnabled{true};
 
 private slots:
     void onSocketConnected();
@@ -140,6 +167,7 @@ private slots:
     /* For QTimer::quit signal */
     void queue_processing();
 
+    void onFileDownloaded(QNetworkReply* nwReply);
 };
 
 class WaitSessionThread : public QThread
