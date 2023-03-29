@@ -137,9 +137,6 @@ void VideoSDK::logout()
 */
 void VideoSDK::call(const QString &peerId)
 {
-    if(!started()) {
-        open_session(m_host, m_port, m_pin);
-    }
     /* command = {"method": "call", "peerId": peerId} */
     QString command = "{\"method\": \"call\", \"peerId\": \"" + peerId +"\"}";
     API_send(command);
@@ -583,10 +580,11 @@ void VideoSDK::onFileDownloaded(QNetworkReply *nwReply)
             openWebsocketSession(m_host, m_configWebsocketPort);
         }
         else {
-            int defaultWebsocketPort = (m_port == DEFAULT_VIDEOSDK_PORT) ? DEFAULT_WEBSOCKET_PORT_FOR_VIDEOSDK : 0;
-            defaultWebsocketPort = (m_port == DEFAULT_ROOM_PORT) ? DEFAULT_WEBSOCKET_PORT_FOR_ROOM : defaultWebsocketPort;
             const QString errMsg =
                     QStringLiteral("Unable to load config file%1").arg(errTxt.isEmpty() ? QString() : QString(" (%1)").arg(errTxt));
+
+            bool allowTryDefaultWSPortOnConfigError = false; //change to 'true' for debug or smth
+            const int defaultWebsocketPort = allowTryDefaultWSPortOnConfigError ? DEFAULT_WEBSOCKET_PORT : 0;
 
             if(defaultWebsocketPort) {
                 qWarning() << qPrintable(errMsg);
@@ -595,6 +593,7 @@ void VideoSDK::onFileDownloaded(QNetworkReply *nwReply)
             }
             else {
                 on_error(errMsg);
+                setCurrentState(State::none);
             }
         }
     }

@@ -37,13 +37,9 @@
 #define V_GET_APP_STATE "getAppState"
 #define V_APP_STATE_CHANGED "appStateChanged"
 
-#define DEFAULT_ROOM_PORT 2525
-#define DEFAULT_VIDEOSDK_PORT 8080
-
-#define DEFAULT_WEBSOCKET_PORT_FOR_ROOM 8765
-#define DEFAULT_HTTP_PORT_FOR_ROOM 8766
-#define DEFAULT_WEBSOCKET_PORT_FOR_VIDEOSDK 8767
-#define DEFAULT_HTTP_PORT_FOR_VIDEOSDK = 8768
+#define DEFAULT_ROOM_APP_PORT 80
+#define DEFAULT_WEBSOCKET_PORT 8765
+#define DEFAULT_HTTP_PORT 8766
 
 enum State
 {
@@ -81,7 +77,7 @@ public:
     static QString stateToText(const State state);
 
 public:
-    void open_session(const QString &host, const int port = 80, const QString &pin = nullptr);
+    void open_session(const QString &host, const int port = DEFAULT_ROOM_APP_PORT, const QString &pin = nullptr);
     void close_session();
     CMethods* Methods();
     CEvents* Events();
