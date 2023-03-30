@@ -1,5 +1,6 @@
 #include "videosdk.h"
 #include <QRandomGenerator>
+#include <QNetworkReply>
 
 VideoSDK::VideoSDK(QObject *parent): QObject(parent)
 {
@@ -14,25 +15,56 @@ VideoSDK::VideoSDK(QObject *parent): QObject(parent)
     QObject::connect(m_socket, SIGNAL(disconnected()), this, SLOT(onSocketDisconnected()));
     QObject::connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onSocketError(QAbstractSocket::SocketError)));
     QObject::connect(m_socket, SIGNAL(destroyed(QObject*)), this, SLOT(onSocketDestroyed(QObject*)));
+    QObject::connect(m_socket, SIGNAL(textMessageReceived(QString)), this, SLOT(onSocketReceived(QString)));
 
     /* Queue processing timer  */
     QObject::connect(&m_timer, SIGNAL(timeout()), this, SLOT(queue_processing()));
+
+    connect(&m_networkAccessMgr, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(onFileDownloaded(QNetworkReply*)));
 }
 
 VideoSDK::~VideoSDK()
 {
     close_session();
-    delete m_socket;
     delete m_events;
     delete m_methods;
 }
 
-void VideoSDK::open_session(const QString &host, const QString &pin)
+void VideoSDK::open_session(const QString &host, const int port, const QString &pin)
 {
     m_host = host;
-    m_pin = pin;
+    m_port = port;
+    m_pin = pin; //needed later for auth
 
-    QUrl url = QUrl("ws://" + host + ":8765");
+    if(pin.isNull() && started()) {
+        auth();
+    }
+    else {
+
+        setCurrentState(State::connect);
+
+        QUrl urlOfConfigJsonFile { QStringLiteral("http://%1:%2/public/default/config.json").arg(m_host).arg(m_port) };
+        qDebug() << "Trying to get config file...";
+
+        QNetworkRequest request(urlOfConfigJsonFile);
+        m_networkAccessMgr.get(request);
+    }
+}
+
+void VideoSDK::close_session()
+{
+    qDebug() << "Closing session...";
+    m_socket->close();
+    clear_queue();
+}
+
+void VideoSDK::openWebsocketSession(const QString &host, const int port)
+{
+    assert((port > -1) && (port < 10000)); //precondition
+
+    QUrl url = QUrl(QString("ws://%1:%2").arg(host).arg(port));
+    qDebug() << "\nTrying connect websocket url:" << url.toString() << "...";
     m_socket->open(url);
 
     /* Start a send texts processing */
@@ -42,14 +74,6 @@ void VideoSDK::open_session(const QString &host, const QString &pin)
     WaitSessionThread* wait_thread = new WaitSessionThread(this);
     wait_thread->start();
     wait_thread->wait(WAIT_FOR_SESSION);
-
-    return;
-}
-
-void VideoSDK::close_session()
-{
-    m_socket->close();
-    clear_queue();
 }
 
 CMethods *VideoSDK::Methods()
@@ -211,17 +235,18 @@ void VideoSDK::changeWindowState(WindowState windowState, bool stayOnTop)
 void VideoSDK::onSocketConnected()
 {
     qDebug() << "WebSocket '" + m_socket->origin() + "' connected" << endl;
-    QObject::connect(m_socket, SIGNAL(textMessageReceived(QString)), this, SLOT(onSocketReceived(QString)));
-
     auth();
 }
 
 void VideoSDK::onSocketDisconnected()
 {
+    setCurrentState(State::none);
+
     qDebug() << "WebSocket '" + m_socket->origin() + "' disconnected" << endl;
 
-    if(m_started)
+    if(m_started) {
         emit closed();
+    }
 
     /* Stop queue sending */
     m_timer.stop();
@@ -246,10 +271,15 @@ void VideoSDK::auth()
 {
     QString command;
 
-    if(m_pin != nullptr && m_pin.length() > 0)
+    if(!m_pin.isEmpty()) {
         command = "{\"method\": \"auth\", \"type\": \"secured\", \"credentials\": \"" + m_pin + "\"}";
-    else
+    }
+    else if(!m_pin.isNull()) {
         command = "{\"method\": \"auth\", \"type\": \"unsecured\"}";
+    }
+    else {
+        command = "{\"method\": \"auth\", \"role\": \"user\"}";
+    }
     /* Only here send() */
     API_send_direct(command);
 }
@@ -271,20 +301,41 @@ bool VideoSDK::processIncoming(const QString &data)
             m_started = true;
 
             /* Emit signal */
+            //todo: this is naming hell: 'started' has actually semantics of 'authorized at least as admin'
+            //and moreover we emit here 'opened' (wth?) signal.
+            //So 'opened' means 'started' and means 'authorized' at the same time! Shouldn't we change this situation?
             emit opened();
+            setCurrentState(State::normal);
 
             processed = true; // <--- processed
 
             /* Now */
             now_ready();
         }
+        /* { "method": "auth", "resultCode": 3, "result": false }; */
+        if(json_obj[OBJ_METHOD] == V_AUTH
+                && json_obj.contains(OBJ_RESULT_CODE) && json_obj[OBJ_RESULT_CODE].toInt() == 3
+                && json_obj.contains(OBJ_ERROR)
+                && json_obj.contains(OBJ_RESULT) && json_obj[OBJ_RESULT].toBool() == false)
+        {
+            m_started = false;
+            QString err = QString(json_obj[OBJ_ERROR].toString());
+
+            /* Emit signal */
+            setCurrentState(State::login);
+
+            processed = true; // <--- processed
+
+            /* Now */
+            on_error(err);
+        }
         /* {"method":"getAppState","requestId":"","embeddedHttpPort":8766,"appState":3,"desktopSharing":{"running":false},"broadcastPicture":{"running":false},"audioCaptureTest":false,"result":true} */
         else if(json_obj[OBJ_METHOD].toString() == V_GET_APP_STATE && json_obj.contains(OBJ_APP_STATE))
         {
-            int m_state = json_obj[OBJ_APP_STATE].toInt(0);
-
-            /* Emit signal */
-            emit change_state(State(m_state));
+            int stateReceived = json_obj[OBJ_APP_STATE].toInt(0);
+            qDebug() << "SdkState now: " << stateToText(state());
+            qDebug() << "AppState returned for getAppState request: " << stateToText(State(stateReceived)) << endl;
+            setCurrentState(stateReceived, true);
 
             processed = true; // <--- processed
         }
@@ -330,10 +381,8 @@ void VideoSDK::processIncomingEvent(const QString &event, const QJsonObject &jso
     /* {"event": "appStateChanged", "appState": None} */
     if(event == V_APP_STATE_CHANGED && json_obj.contains(OBJ_APP_STATE))
     {
-        int m_state = json_obj[OBJ_APP_STATE].toInt(0);
-
-        /* Emit signal */
-        emit change_state(State(m_state));
+        const int stateReceived = json_obj[OBJ_APP_STATE].toInt(0);
+        setCurrentState(stateReceived, true);
     }
     else
     {
@@ -400,7 +449,7 @@ void VideoSDK::now_ready()
 /*
  * When error
 */
-void VideoSDK::on_error(QString &e)
+void VideoSDK::on_error(const QString &e)
 {
     /* Emit signal */
     emit error(QString(e));
@@ -409,9 +458,33 @@ void VideoSDK::on_error(QString &e)
     qDebug() << " error: " << e << endl;
 }
 
+/*
+ * When warning
+*/
+void VideoSDK::on_warning(const QString &w) //todo: rename all such methods and correct codestyle
+{
+    /* Emit signal */
+    emit warning(QString(w));
+
+    //todo: qWarning() ?
+    qDebug() << ":now_warning" << endl;
+    qDebug() << " warning: " << w << endl;
+}
+
 State VideoSDK::state() const
 {
     return m_state;
+}
+
+void VideoSDK::setCurrentState(int state, bool emitDeprecated)
+{
+    if(State(state) != m_state) {
+        m_state = State(state);
+        qDebug() << "Changing SdkState to: " << stateToText(State(state)) << endl;
+        /* Emit signal */
+        if(emitDeprecated) { emit change_state(m_state); } //deprecated
+        emit stateChanged(m_state);
+    }
 }
 
 bool VideoSDK::started() const
@@ -441,7 +514,9 @@ void VideoSDK::API_send(const QString &data)
 {
     QMutexLocker locker(&m_mutex);
     m_queue.append(new QString(data));
-    qDebug() << "Queue length:" << m_queue.length() << endl;
+
+    //todo: prepend endl or just '\n' when needed instead of append! Everywhere.
+    qDebug() << "API_send data: "<< data << "Queue length:" << m_queue.length() << endl;
 }
 
 void VideoSDK::clear_queue()
@@ -489,6 +564,83 @@ void VideoSDK::queue_processing()
     }
 }
 
+void VideoSDK::onFileDownloaded(QNetworkReply *nwReply)
+{
+    if(nwReply->error() != QNetworkReply::NoError) {
+        qDebug() << "Network reply error:" << nwReply->error();
+    }
+
+    m_downloadedData = nwReply->readAll();
+    nwReply->deleteLater();
+
+    if(nwReply->url().toString().endsWith("config.json")) {
+
+        QString errTxt;
+        if(parseConfigJsonFileData(m_downloadedData, &errTxt)) {
+            openWebsocketSession(m_host, m_configWebsocketPort);
+        }
+        else {
+            const QString errMsg =
+                    QStringLiteral("Unable to load config file%1").arg(errTxt.isEmpty() ? QString() : QString(" (%1)").arg(errTxt));
+
+            bool allowTryDefaultWSPortOnConfigError = false; //change to 'true' for debug or smth
+            const int defaultWebsocketPort = allowTryDefaultWSPortOnConfigError ? DEFAULT_WEBSOCKET_PORT : 0;
+
+            if(defaultWebsocketPort) {
+                qWarning() << qPrintable(errMsg);
+                qWarning() << "Trying default websocket port:" << defaultWebsocketPort;
+                openWebsocketSession(m_host, defaultWebsocketPort);
+            }
+            else {
+                on_error(errMsg);
+                setCurrentState(State::none);
+            }
+        }
+    }
+}
+
+bool VideoSDK::parseConfigJsonFileData(const QByteArray& cfgJsonData, QString *errTxt)
+{
+    bool success = false;
+    if(errTxt) { errTxt->clear(); }
+
+    auto configJsonDocument = QJsonDocument::fromJson(cfgJsonData);
+
+    if(!configJsonDocument.isNull()) { //json is valid
+        qDebug() << "Config file is successfully read, searching for settings...";
+
+        m_configHttpPort = configJsonDocument["config"]["http"]["port"].toDouble();
+        m_configWebsocketPort = configJsonDocument["config"]["websocket"]["port"].toDouble();
+        qDebug() << "Config file http-port:" << m_configHttpPort;
+        qDebug() << "Config file websocket-port:" << m_configWebsocketPort;
+
+        success = (m_configHttpPort && m_configWebsocketPort);
+        if(!success && errTxt) { *errTxt = QStringLiteral("Missing or wrong json key(s)/value(s)"); }
+    }
+    else {
+        //qDebug() << "Config file is invalid!";
+        if(errTxt) {
+            *errTxt = cfgJsonData.isEmpty() ? QStringLiteral("File is empty/missing")
+                                            : QStringLiteral("File has invalid json content");
+        }
+
+        //uncomment for debug
+//        qDebug() << "\nDownloaded byte array:" << cfgJsonData;
+//        if(cfgJsonData.size() > 2) {
+//            qDebug() << "\n0:" << cfgJsonData[0] << "\n1:" <<cfgJsonData[1];
+//        }
+    }
+
+    return success;
+}
+
+void VideoSDK::setPrintUnprocessedDataEnabled(bool enabled)
+{
+    m_printUnprocessedDataEnabled = enabled;
+    on_warning(QStringLiteral("Displaying of unprocessed websocket data is currently disabled! "
+                              "You may reenable it by calling 'setPrintUnprocessedDataEnabled()'"));
+}
+
 /*
  * Signal textMessageReceived() from QWebSocket* m_socket
 */
@@ -498,7 +650,7 @@ void VideoSDK::onSocketReceived(const QString &data)
     emit socketReceived(data);
 
     // Process
-    if(!processIncoming(data))
+    if(!processIncoming(data) && m_printUnprocessedDataEnabled)
         qDebug() << "Data Unprocessed:" << data << endl;
 }
 
@@ -507,6 +659,6 @@ void VideoSDK::onSocketReceived(const QString &data)
 */
 void VideoSDK::onSocketDestroyed(QObject *obj)
 {
-    qDebug() << "WebSocket '" + obj->objectName() + "' distroyed" << endl;
+    qDebug() << "WebSocket '" + obj->objectName() + "' destroyed" << endl;
 }
 
